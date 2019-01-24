@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<title>正则测试</title>
+<script>
+	//页面加载完再执行onload方法，不加这个方法，s2找不到，因为还没加载到s2,也可以把js移到最下面
+	window.onload = function () {
+		//获取input对象的集合
+		var s = document.getElementsByTagName("input");
+
+		//按钮
+		var uname = document.getElementById('username');
+		var passwd = document.getElementById('passwd');
+		var email = document.getElementById('email');
+		var mobilephone = document.getElementById('mobilephone');
+		var identify = document.getElementById('identify');
+		var datetime = document.getElementById('datetime');
+
+		var reg;
+		uname.onclick = function(){
+			//中文模式2-5，英文模式字母下划线开头3-10,不允许中英混搭
+			//reg = /(^[\u4e00-\u9fa5]{2,5}$)|(^[a-zA-Z_][\w\s]{2,9}$)/;
+			//字母开头，3-10，允许字母数字下划线空格
+			//reg = /^[a-zA-Z][a-zA-Z0-9_]{2,9}$/;
+			reg = /^[a-zA-Z][\w\s]{2,9}$/;
+			alert(reg.test(s[0].value));
+		}
+		passwd.onclick = function(){
+			//以字母开头，长度在6~10之间，只能包含字母、数字和下划线
+			reg = /^[a-zA-Z]\w{5,9}$/;
+			//必须包含大小写字母和数字的组合，不能使用特殊字符，长度在 6-10 之间
+			reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,10}$/;
+			//必须包含大小写字母和数字的组合，可以使用特殊字符，长度在6-10之间
+			reg = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$/;
+			
+			alert(reg.test(s[1].value));
+		}
+		email.onclick = function(){
+			//xx-x-x@xxx-xx-xx.xxx-xx-xx
+			reg = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+			//ChinaPRNo1@163.com.cn
+			reg = /^\w{3,10}@\w{2,8}\.\w{2,3}([.]\w{2,3})?$/ig;
+			
+			alert(reg.test(s[2].value));
+		}
+		mobilephone.onclick = function(){
+			//中国移动
+			var reg1 = /^(13[4-9]|147|15[0-2|8-9]|178|18[2-4|7-8])\d{8}$/;
+			//中国联通
+			var reg2 = /^(13[0-2]|145|15[5-6]|176|18[5-6])\d{8}$/;
+			//中国电信
+			var reg3 = /^(133|153|17[3|7]|18[0|1|9])\d{8}$/;
+			var str;
+			if(reg1.test(s[3].value)) str = "中国移动";
+			else if(reg2.test(s[3].value)) str = "中国联通";
+			else if(reg3.test(s[3].value)) str = "中国电信";
+			else str = "未知号码";
+			//统一验证
+			reg = /^(13[0-9]|14[5|7]|15[0-3|5-9]|17[3|6-8]|18[0-9])\d{8}$/;
+			
+			alert(str + ":  " + reg.test(s[3].value));
+		}
+		identify.onclick = function(){
+			//15位、18位数字，最后一位是校验位，也可能为字符X
+			reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/;
+			
+			alert(reg.test(s[4].value));
+		}
+		datetime.onclick = function(){
+			//1949-10-01
+			reg = /^\d{4}-\d{1,2}-\d{1,2}$/;
+
+			alert(reg.test(s[5].value));
+		}
+	};
+</script>
+<link  type="text/css" rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="main_left">
+		<input type="text" value="" placeholder="请输入用户名" />
+		<button id="username">测试用户名</button>
+		<br>
+		<input type="text" value="" placeholder="请输入密码"/>
+		<button id="passwd">测试密码</button>
+		<br>
+		<input type="text" value="" placeholder="请输入邮箱"/>
+		<button id="email">测试邮箱</button>
+		<br>
+		<input type="text" value="" placeholder="请输入手机号"/>
+		<button id="mobilephone">测试手机号</button>
+		<br>
+		<input type="text" value="" placeholder="请输入身份证"/>
+		<button id="identify">测试身份证</button>
+		<br>
+		<input type="text" value="" placeholder="请输入日期"/>
+		<button id="datetime">测试日期(年-月-日)</button>
+		<br>
+	</div>
+	<div class="img_right">
+		<img src="img/xyz.jpg" alt="正则元字符" />
+	</div>
+</body>
